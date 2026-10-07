@@ -16,7 +16,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.112.3",
+        "@anthropic-ai/sdk": "^0.131.0",
         "bcrypt": "^6.0.0",
         "cors": "^2.8.6",
         "dotenv": "^17.4.2",
