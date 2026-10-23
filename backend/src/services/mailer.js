@@ -16,10 +16,17 @@ const transporter = nodemailer.createTransport({
 // suite can read the reset token out of the message body instead of a real inbox.
 export const testOutbox = [];
 
-export const sendMail = (to, subject, text) => {
+// `html` is optional: email apps that can't show HTML fall back to `text`.
+export const sendMail = (to, subject, text, html) => {
     if (process.env.NODE_ENV === "test") {
-        testOutbox.push({ to, subject, text });
+        testOutbox.push({ to, subject, text, html });
         return Promise.resolve({ queued: true });
     }
-    return transporter.sendMail({ from: process.env.APP_EMAIL, to, subject, text });
+    return transporter.sendMail({
+        from: `"TrackrAI" <${process.env.APP_EMAIL}>`,
+        to,
+        subject,
+        text,
+        ...(html ? { html } : {}),
+    });
 };

@@ -191,6 +191,11 @@ export const getDueReminders = async (callback) => {
   try {
     const { rows } = await query(
       `SELECT a.activity_id, a.activity_name, a.due_date, a.reminder_method,
+              -- Format in SQL so the email shows the stored date/time exactly,
+              -- e.g. "Oct 30, 2026 at 11:59 PM" (NULL if no due date).
+              TO_CHAR(a.due_date, 'Mon FMDD, YYYY "at" FMHH12:MI AM') AS due_label,
+              (a.due_date::date - CURRENT_DATE) AS days_left,
+              a.grading_weight,
               c.course_code, c.course_name,
               u.email, u.first_name
          FROM activities a
